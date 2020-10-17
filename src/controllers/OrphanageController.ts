@@ -37,6 +37,7 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends,
+      whatsapp,
     } = request.body;
 
     const orphanageRepository = getRepository(Orphanage);
@@ -54,6 +55,7 @@ export default {
       opening_hours,
       open_on_weekends: open_on_weekends === "true",
       images,
+      whatsapp: whatsapp.replace(/\D/g, ""),
     };
 
     const schema = Yup.object().shape({
@@ -69,6 +71,7 @@ export default {
           path: Yup.string().required(),
         })
       ),
+      whatsapp: Yup.string().required().max(13),
     });
 
     await schema.validate(data, { abortEarly: false });
